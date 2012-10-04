@@ -4,6 +4,16 @@ class UsersController < ApplicationController
   	@user = User.new
   end
 
+  def create
+    @user = User.new(params[:user])
+    if (@user.save)
+      sign_in @user
+      flash[:success] = "Welcome to Kritikos!"
+      redirect_to root_path
+    else
+      render 'new'
+    end
+  end
 
   private 
 

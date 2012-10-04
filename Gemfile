@@ -33,6 +33,8 @@ end
 
 gem 'jquery-rails'
 
+gem 'annotate', ">=2.5.0"
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
