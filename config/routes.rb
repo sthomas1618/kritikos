@@ -1,4 +1,10 @@
 Kritikos::Application.routes.draw do
+  get "users/new"
+
+  get "pages/home"
+
+  get "sys_com/index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
