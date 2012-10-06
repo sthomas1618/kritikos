@@ -18,13 +18,15 @@ require 'spec_helper'
 describe User do
   
   before do
-    @user = User.new(name: "Test User", email: "test@example.com",
-                     password: "foobar", password_confirmation: "foobar") 
+    @user = User.new(name: "Test User", username: "Test_user", 
+                     email: "test@example.com", password: "foobar", 
+                     password_confirmation: "foobar") 
   end
 
   subject { @user }
 
   it { should respond_to(:name) }
+  it { should respond_to(:username) }
   it { should respond_to(:email) }
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
@@ -51,6 +53,21 @@ describe User do
 
   describe "when name is too long" do
     before { @user.name = "a" * 51 }
+    it { should_not be_valid }
+  end
+
+  describe "when username is not present" do
+    before { @user.username = " " }
+    it { should_not be_valid }
+  end
+
+  describe "when username is spaced" do
+    before { @user.username = "Example user" }
+    it { should_not be_valid }
+  end
+
+  describe "when username is too long" do
+    before { @user.username = "a" * 51 }
     it { should_not be_valid }
   end
 
@@ -111,7 +128,7 @@ describe User do
   end
 
   describe "when password confirmation is nil" do
-    before {@user.password_confirmation = nil }
+    before { @user.password_confirmation = nil }
     it { should_not be_valid }
   end
 
