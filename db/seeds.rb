@@ -5,3 +5,10 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+if(GameClock.count == 0)
+    GameClock.create()
+    puts "Clock created"
+  else
+    puts "Clock exists."
+end
