@@ -1,2 +1,20 @@
 <h1>SysCom</h1>
-<p>You are logged in</p>
+<div id="sys_content" >
+</div>
+<script type="text/json" id="bootstrap">
+  {
+    "clock": <%= @clock.to_json() %>
+  }
+</script>
+
+<%= content_for :javascript do -%>
+  <script type="text/javascript">
+    $(function () {
+    	var div = $('<div></div>');
+      div.html($('#bootstrap').text());
+      var data = JSON.parse(div.text());
+      console.log(data);
+      Kritikos.initialize(data);
+    });
+  </script>
+<% end %>

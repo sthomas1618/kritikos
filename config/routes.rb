@@ -1,5 +1,7 @@
 Kritikos::Application.routes.draw do
   
+  
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :users, only: [:new, :create]
   
@@ -9,6 +11,7 @@ Kritikos::Application.routes.draw do
               :constraints => lambda{|r| r.cookies.key?("remember_token") }   
   root :to => 'pages#home'
 
+  match '/clock',   to: 'game_clocks#clock'
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
