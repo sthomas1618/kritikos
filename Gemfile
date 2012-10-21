@@ -15,6 +15,7 @@ gem 'clockwork'
 gem 'foreman'
 gem 'resque'
 gem 'rabl'
+gem 'thin'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
