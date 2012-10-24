@@ -1,7 +1,4 @@
-web: bundle exec rails server -p $PORT
+web:    bundle exec rails server -p $PORT
+faye:   env BUNDLE_GEMFILE=faye/Gemfile bundle exec rackup -s thin -E production faye/config.ru -p 9292
 worker: bundle exec rake environment resque:work QUEUE=* VVERBOSE=1
-clock: bundle exec clockwork lib/clock.rb
-bundle exec rackup $BASEDIR/config.ru -s thin -E production
-
-
-pubsub: bundle exec thin -p $PORT -e $RACK_ENV -R ./faye/config.ru start
+clock:  bundle exec clockwork lib/clock.rb
