@@ -3,14 +3,12 @@ window.Kritikos = {
   Collections: {},
   Views: {},
   Routers: {},
-  // init: function() {
-  //   alert('Hello from Backbone!');
-  // },
 
   initialize: function(data) {
     this.clock = new Kritikos.Models.GameClock(data.clock);
-
-    new Kritikos.Routers.SysCom({ clock: this.clock });
+    
+    new Kritikos.Routers.Game({ clock: this.clock });
+    new Kritikos.Routers.Single();
     if (!Backbone.history.started) {
       Backbone.history.start();
       Backbone.history.started = true;

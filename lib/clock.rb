@@ -10,4 +10,4 @@ handler do |job|
   
 end
 
-every(15.seconds, 'Advance_clock') { Resque.enqueue(Advance_clock) }
+every(15.minutes, 'Advance_clock') { Resque.enqueue(Advance_clock) }

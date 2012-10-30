@@ -1,6 +1,3 @@
-<h1>SysCom</h1>
-<div id="sys_content" >
-</div>
 <script type="text/json" id="bootstrap">
   {
     "clock": <%= @clock.to_json() %>
@@ -13,7 +10,7 @@
     	var div = $('<div></div>');
       div.html($('#bootstrap').text());
       var data = JSON.parse(div.text());
-      console.log(data);
+      
       Kritikos.initialize(data);
     });
   </script>

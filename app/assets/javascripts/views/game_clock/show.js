@@ -1,6 +1,9 @@
-Kritikos.Views.GameClock = Kritikos.Views.GameClock || {}
+Kritikos.Views.GameClock = Kritikos.Views.GameClock || {};
 
 Kritikos.Views.GameClock.Show = Support.CompositeView.extend({
+  tagName: "section",
+  id: "clock",
+
   initialize: function() {
     _.bindAll(this, "render");
     this.options.model.bind('change', this.render);
@@ -14,5 +17,5 @@ Kritikos.Views.GameClock.Show = Support.CompositeView.extend({
 
   renderTemplate: function() {
     this.$el.html(JST['game_clock/show']({ clock: this.model.toJSON() }));
-  },
+  }
 });
