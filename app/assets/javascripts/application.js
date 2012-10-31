@@ -26,3 +26,5 @@
 //= require_tree ./views
 //= require_tree ./routers
 //= require_tree .
+
+//= require d3.v2.min.js
