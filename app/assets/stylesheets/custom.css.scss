@@ -177,3 +177,18 @@ input, textarea, select, .uneditable-input {
   @include box_sizing;
 }
 
+/* star com */
+
+svg.starcom {
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
+}
+
+rect.quad {
+  fill: #ddd;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #fff;
+}
