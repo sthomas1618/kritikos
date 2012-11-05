@@ -4,6 +4,7 @@ Kritikos::Application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :users, only: [:new, :create]
+  resources :solar_systems, only: [:index]
   
   get "sys_com/index"
 

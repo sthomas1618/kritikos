@@ -33,16 +33,6 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
 
   renderTemplate: function() {
     this.$el.append(JST['star_com/index']());
-    var data = [
-            {x: 5, y: 4},
-            {x: 2, y: 1},
-            {x: 7, y: 9},
-            {x: 5, y: 4},
-            {x: 2, y: 1},
-            {x: 9, y: 9},
-            {x: 1, y: 1},
-            {x: 2, y: 7}
-            ];
 
     var width = 700,
         height = 450,
@@ -104,11 +94,12 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
         .call(yAxis);
 
     vis.selectAll("path.dot")
-        .data(data)
+        .data(this.collection.models)
       .enter().append("path")
         .attr("class", "dot")
-        .attr("stroke", function(d, i) { return color(i); })
-        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
+        .attr("stroke", function(d, i) { console.log(d); return color(i); })
+        .attr("transform",
+              function(d) { return "translate(" + x(d.get("solar_system").x) + "," + y(d.get("solar_system").y) + ")"; })
         .attr("d", d3.svg.symbol()
         .type(function(d, i) { return symbol(i); }));
   }
