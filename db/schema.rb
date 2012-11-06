@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121009014404) do
+ActiveRecord::Schema.define(:version => 20121106142734) do
+
+  create_table "constellations", :force => true do |t|
+    t.string   "name"
+    t.decimal  "x",          :precision => 15, :scale => 2
+    t.decimal  "y",          :precision => 15, :scale => 2
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+  end
 
   create_table "game_clocks", :force => true do |t|
     t.integer  "turn",       :default => 0, :null => false
