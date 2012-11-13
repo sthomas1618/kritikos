@@ -4,5 +4,15 @@
 		{
 			"path": "/home/stephen/Projects/rails_projects/kritikos"
 		}
-	]
+	],
+  "settings":
+  {
+      "SublimeLinter":
+      {
+      	"sublimelinter_executable_map":
+				{
+				    "ruby": "rvm-auto-ruby"
+				}
+      }
+  }
 }

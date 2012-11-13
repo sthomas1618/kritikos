@@ -32,6 +32,7 @@ GEM
     annotate (2.5.0)
       rake
     arel (3.0.2)
+    awesome_print (1.1.0)
     backbone-on-rails (0.9.2.1)
       eco (~> 1.0.0)
       ejs (~> 1.0.0)
@@ -83,6 +84,7 @@ GEM
     ffi (1.1.5)
     foreman (0.60.2)
       thor (>= 0.13.6)
+    geocoder (1.1.4)
     handlebars_assets (0.6.6)
       execjs (>= 1.2.9)
       sprockets (>= 2.0.3)
@@ -199,6 +201,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate (>= 2.5.0)
+  awesome_print
   backbone-on-rails
   backbone-support
   bcrypt-ruby (= 3.0.1)
@@ -210,6 +213,7 @@ DEPENDENCIES
   factory_girl_rails (= 4.1.0)
   faker (= 1.0.1)
   foreman
+  geocoder
   handlebars_assets
   jquery-rails
   pg (= 0.14.1)

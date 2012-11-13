@@ -11,14 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121106142734) do
+ActiveRecord::Schema.define(:version => 20121106180257) do
 
   create_table "constellations", :force => true do |t|
     t.string   "name"
-    t.decimal  "x",          :precision => 15, :scale => 2
-    t.decimal  "y",          :precision => 15, :scale => 2
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.float    "x"
+    t.float    "y"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "game_clocks", :force => true do |t|
@@ -26,6 +26,14 @@ ActiveRecord::Schema.define(:version => 20121106142734) do
     t.integer  "tick",       :default => 0, :null => false
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
+  end
+
+  create_table "solar_systems", :force => true do |t|
+    t.integer  "constellation_id"
+    t.float    "x"
+    t.float    "y"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "users", :force => true do |t|

@@ -4,8 +4,8 @@
 #
 #  id         :integer          not null, primary key
 #  name       :string(255)
-#  x          :decimal(15, 2)
-#  y          :decimal(15, 2)
+#  x          :float
+#  y          :float
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

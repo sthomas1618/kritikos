@@ -16,6 +16,8 @@ gem 'foreman'
 gem 'resque'
 gem 'rabl'
 gem 'thin'
+gem 'awesome_print'
+gem 'geocoder'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
