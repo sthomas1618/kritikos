@@ -1,2 +1,0 @@
-class ConstellationController < ApplicationController
-end
