@@ -15,7 +15,7 @@ class Constellation < ActiveRecord::Base
 
 	has_many :solar_systems
 
-	#chart_by :x, :y
+	charted_by :x, :y
 
   validates :x, presence: true
   validates :y, presence: true

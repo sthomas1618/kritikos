@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/sthomas1618/starcharter.git
-  revision: b9db6f5cef605e4c7163091d30f25bc33d33e450
+  revision: bf108d8379f4d224d9cf52e8c5a03eb9c6e1354e
   specs:
     starcharter (0.1)
 
