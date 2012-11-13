@@ -17,7 +17,7 @@ gem 'resque'
 gem 'rabl'
 gem 'thin'
 gem 'awesome_print'
-gem 'geocoder'
+gem 'starcharter', git: 'git://github.com/sthomas1618/starcharter.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

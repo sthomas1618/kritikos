@@ -15,8 +15,6 @@ class SolarSystem < ActiveRecord::Base
 
 	belongs_to :constellation
 
-	geocoded_by latitude: :y, longitude: :x
-
   validates :x, presence: true
   validates :y, presence: true
 end

@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/sthomas1618/starcharter.git
+  revision: b9db6f5cef605e4c7163091d30f25bc33d33e450
+  specs:
+    starcharter (0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -84,7 +90,6 @@ GEM
     ffi (1.1.5)
     foreman (0.60.2)
       thor (>= 0.13.6)
-    geocoder (1.1.4)
     handlebars_assets (0.6.6)
       execjs (>= 1.2.9)
       sprockets (>= 2.0.3)
@@ -213,7 +218,6 @@ DEPENDENCIES
   factory_girl_rails (= 4.1.0)
   faker (= 1.0.1)
   foreman
-  geocoder
   handlebars_assets
   jquery-rails
   pg (= 0.14.1)
@@ -222,6 +226,7 @@ DEPENDENCIES
   resque
   rspec-rails (= 2.11.0)
   sass-rails (~> 3.2.3)
+  starcharter!
   thin
   uglifier (>= 1.0.3)
   will_paginate (= 3.0.3)

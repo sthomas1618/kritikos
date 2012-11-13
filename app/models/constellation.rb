@@ -15,7 +15,7 @@ class Constellation < ActiveRecord::Base
 
 	has_many :solar_systems
 
-	reverse_geocoded_by latitude: :y, longitude: :x
+	#chart_by :x, :y
 
   validates :x, presence: true
   validates :y, presence: true
