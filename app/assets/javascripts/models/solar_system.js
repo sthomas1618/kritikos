@@ -1,4 +1,4 @@
-Kritikos.Models.SolarSystem = Backbone.Model.extend({
+Kritikos.Models.SolarSystem = Backbone.RelationalModel.extend({
   initialize: function() {
     
   }

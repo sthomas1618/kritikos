@@ -4,9 +4,11 @@ Kritikos::Application.routes.draw do
 
   resources :sessions,       only: [:new, :create, :destroy]
   resources :users,          only: [:new, :create]
-  resources :constellations, only: [:index]
-  resources :solar_systems,  only: [:index]
-  
+  resources :constellations, only: [:index, :show] do
+    resources :solar_systems, only: [:index]
+  end
+  #resources :solar_systems,  only: [:index]
+
   get "sys_com/index"
 
   root :to => "sys_com#index", 

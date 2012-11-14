@@ -78,7 +78,9 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
         //.attr("transform", "translate(" + margin + "," + margin + ")")
         //.call(d3.behavior.zoom().x(x).y(y).scaleExtent([1, 8]).on("zoom", this.zoom));
     //console.log(svg);
-
+    // vis.selectAll("g")
+    //     .data(this.collection.models)
+    //   .enter().append("g")
     vis.append("rect")
         .attr("class", "quad")
         .attr("width", "100%")

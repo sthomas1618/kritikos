@@ -6,4 +6,8 @@ class ConstellationsController < ApplicationController
 		box = Starcharter::Calculations.bounding_box(center_point, distance)
   	@constellations = Constellation.within_bounding_box(box)
   end
+
+  def show
+  	@constellation = Constellation.find(params[:id])
+  end
 end

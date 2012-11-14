@@ -1,2 +1,2 @@
-collection @sol_systems, :object_root => "solar_system"
-attributes :x, :y
+collection @sol_systems
+attributes :id, :x, :y, :constellation_id

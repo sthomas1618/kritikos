@@ -4,7 +4,8 @@ class SolarSystemsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @sol_systems = all_sol_systems
+  	@stella = Constellation.find(params[:constellation_id])
+    @sol_systems = @stella.solar_systems
   end
 
   def all_sol_systems

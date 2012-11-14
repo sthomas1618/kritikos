@@ -17,7 +17,8 @@
 //= require backbone
 //= require backbone-support
 //= require handlebars.runtime
-//
+//= require backbone-relational.js
+
 //= require kritikos
 //
 //= require_tree ../templates/
@@ -28,3 +29,4 @@
 //= require_tree .
 
 //= require d3.v2.min.js
+
