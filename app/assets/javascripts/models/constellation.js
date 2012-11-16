@@ -1,6 +1,8 @@
 Kritikos.Models.Constellation = Backbone.RelationalModel.extend({
   initialize: function() {
-    
+    this.get('solar_systems').url = _.bind(function(){
+          return this.url() + "/solar_systems";
+      }, this);
   },
   urlRoot: "/constellations",
   relations: [{
