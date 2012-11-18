@@ -34,17 +34,18 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
   renderTemplate: function() {
     this.$el.append(JST['star_com/index']());
 
-    var width = 700,
-        height = 450,
-        margin = 20;
+    var width    = 800,
+        height   = 800,
+        x_offset = -50,
+        y_offset = 50;
 
     var x = d3.scale.linear()
-      .domain([0, 10])  
+      .domain([0, 100])
       .range([0, width]);
       //.range([20, width]);
 
     var y = d3.scale.linear()
-      .domain([0, 10])  
+      .domain([0, 100])
       .range([height, 0]);
 
     var xAxis = d3.svg.axis()
@@ -64,12 +65,12 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     var vis = d3.select($('#starcom_map', this.$el).get(0))
       .append("svg:svg")
         .attr("class", "starcom")
-        .attr("width", width + margin * 2)
-        .attr("height", height + margin * 2)
+        .attr("width", "100%")
+        .attr("height", height)
         .attr("pointer-events", "all")
       .append('svg:g')
-        .attr("transform", "translate(" + margin + "," + margin + ")")
-        .call(d3.behavior.zoom().x(x).y(y).scaleExtent([1, 8]).on("zoom", this.zoom))
+        //.attr("transform", "translate(" + margin + "," + margin + ")")
+        .call(d3.behavior.zoom().x(x).y(y).scaleExtent([0, 8]).on("zoom", this.zoom))
       .append('svg:g');
       //.append("svg")
       //  .attr("width", width + margin * 2)
@@ -77,31 +78,41 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
       //.append("g")
         //.attr("transform", "translate(" + margin + "," + margin + ")")
         //.call(d3.behavior.zoom().x(x).y(y).scaleExtent([1, 8]).on("zoom", this.zoom));
-    //console.log(svg);
-    // vis.selectAll("g")
-    //     .data(this.collection.models)
-    //   .enter().append("g")
-    vis.append("rect")
-        .attr("class", "quad")
-        .attr("width", "100%")
-        .attr("height", height);
+    var quad = vis.selectAll("g")
+                .data(this.collection.models);
+    var quadEnter = quad.enter().append("g");
+  // vis.append("rect")
+      quadEnter.append("rect")
+          .attr("class", "quad")
+          .attr("width", width)
+          .attr("height", height)
+          .attr("transform",
+            function(d) { return "translate(" + x(d.get("x") + x_offset) + "," +
+                                                y(d.get("y") + y_offset) + ")"; });
 
-    vis.append("g")
+      quadEnter.append("g")
+//vis.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
+        .attr("transform",
+          function(d) { return "translate(" + x(d.get("x") + x_offset) + "," +
+                                              y(d.get("y") + y_offset) + ")"; })
+          // "translate(" + x(d.get("x")) + "," + y(d.get("y")) + height + ")")
         .call(xAxis);
-
-    vis.append("g")
+      quadEnter.append("g")
+//vis.append("g")
         .attr("class", "y axis")
+        .attr("transform",
+          function(d) { return "translate(" + x(d.get("x") + x_offset) + "," +
+                                              y(d.get("y") + y_offset) + ")"; })
         .call(yAxis);
-
-    vis.selectAll("path.dot")
-        .data(this.collection.models)
+      quadEnter.selectAll("path.dot")
+//vis.selectAll("path.dot")
+        .data(function(d, i) { return d.get("solar_systems").models; })
       .enter().append("path")
         .attr("class", "dot")
-        .attr("stroke", function(d, i) { console.log(d); return color(i); })
+        .attr("stroke", function(d, i) {return color(i); })
         .attr("transform",
-              function(d) { return "translate(" + x(d.get("solar_system").x) + "," + y(d.get("solar_system").y) + ")"; })
+              function(d) { return "translate(" + x(d.get("x")) + "," + y(d.get("y")) + ")"; })
         .attr("d", d3.svg.symbol()
         .type(function(d, i) { return symbol(i); }));
   }

@@ -19,12 +19,13 @@ Kritikos.Routers.Game = Support.SwappingRouter.extend({
   },
 
   starcom: function() {
-    var sol_systems = new Kritikos.Collections.SolarSystems();
+    var stellas = new Kritikos.Collections.Constellations();
+    //var sol_systems = new Kritikos.Collections.SolarSystems();
     var game_router = this;
     var clock = this.clock;
-    sol_systems.fetch({
+    stellas.fetch({
       success: function() {
-        var view = new Kritikos.Views.StarCom.Index({collection: sol_systems,
+        var view = new Kritikos.Views.StarCom.Index({collection: stellas,
                                                      model: clock });
         game_router.swap(view);
       }
