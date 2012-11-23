@@ -5,7 +5,7 @@ Kritikos.Routers.Game = Support.SwappingRouter.extend({
     new BackboneSync.RailsFayeSubscriber(this.clocks, { channel: 'game_clocks'  });
     this.clocks.reset(options.clock);
     this.clock = this.clocks.models[0];
-    
+
   },
 
   routes: {

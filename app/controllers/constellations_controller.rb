@@ -1,5 +1,5 @@
 class ConstellationsController < ApplicationController
-	
+
 	def index
 		distance = 200
 		center_point = (params[:x] && params[:y]) ? [params[:x], params[:y]] : [0, 0]
