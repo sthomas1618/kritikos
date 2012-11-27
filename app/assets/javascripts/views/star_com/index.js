@@ -15,6 +15,8 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     this.y = d3.scale.linear()
       .domain([-150, 150])
       .range([this.height, 0]);
+    this.center_x = 0;
+    this.center_y = 0;
   },
 
   render: function () {
@@ -34,21 +36,23 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
                           " scale(" + d3.event.scale + ")");
     var x_coord = ((-1 * d3.event.translate[0]) + this.x(this.x_offset * 2)) / d3.event.scale;
     var y_coord = ((-1 * d3.event.translate[1]) + this.y(this.y_offset * 2)) / d3.event.scale;
-    // var x_coord = (-1 * (d3.event.translate[0]) / d3.event.scale) +
-    //               (this.x(this.x_offset * 2) / d3.event.scale);
-    // var y_coord = (-1 * (d3.event.translate[1]) / d3.event.scale) +
-    //               (this.y(this.y_offset * 2) / d3.event.scale);
 
-    var normalized_x = this.x.invert(x_coord);
-    var normalized_y = this.y.invert(y_coord);
+    var real_x = this.x.invert(x_coord);
+    var real_y = this.y.invert(y_coord);
+    var dx = real_x - this.center_x;
+    var dy = real_y - this.center_y;
+    var distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    //console.log(distance);
+    if (distance > 115) {
+      console.log("load");
+      this.center_x = real_x;
+      this.center_y = real_y;
+    }
 
     // var normalized_x = ((-1 * this.x.invert(d3.event.translate[0]))
     //                     + (this.x_offset * 5)) * d3.event.scale;
     // var normalized_y = ((-1 * this.y.invert(d3.event.translate[1]))
     //                     + (this.y_offset * 5)) * d3.event.scale;
-    console.log(d3.event.translate);
-    console.log(d3.event.scale);
-    console.log("invert: [" + normalized_x + ", " + normalized_y + "]");
     var x = this.x,
         y = this.y;
     var centerC = this.vis.select("g.center")
@@ -56,7 +60,7 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
         function(d) { return "translate(" + x_coord + "," + y_coord + ")"; });
     centerC.select("text")
       .text(
-        function(d) { return "center (" + normalized_x + ", " + normalized_y + ")"; });
+        function(d) { return "center (" + real_x + ", " + real_y + ")"; });
 
     //Backbone.history.navigate("#starcom?x=" + x_coord + "&y=" + y_coord, { replace: true });
   },
