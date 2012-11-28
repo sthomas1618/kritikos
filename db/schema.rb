@@ -15,10 +15,10 @@ ActiveRecord::Schema.define(:version => 20121106180257) do
 
   create_table "constellations", :force => true do |t|
     t.string   "name"
-    t.decimal  "x",          :precision => 15, :scale => 2
-    t.decimal  "y",          :precision => 15, :scale => 2
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.float    "x"
+    t.float    "y"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "game_clocks", :force => true do |t|

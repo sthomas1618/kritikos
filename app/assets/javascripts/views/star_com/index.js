@@ -4,7 +4,9 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
   tagName: "section",
 
   initialize: function() {
-    _.bindAll(this, "render", "renderTemplate", "zoom", "setStella");
+    _.bindAll(this, "render", "renderTemplate", "zoom", "drawConstellations");
+    this.quad_width = 800;
+    this.quad_height = 800;
     this.x_offset = -50; // Need to offset constellation because
     this.y_offset = 50;  // rect element starts on upper-left corner
     this.width = 2400;
@@ -17,15 +19,26 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
       .range([this.height, 0]);
     this.center_x = 0;
     this.center_y = 0;
+    this.xAxis = d3.svg.axis()
+      .scale(this.x)
+      .orient("bottom")
+      .ticks(15)
+      .tickSize(-2400);
+
+    this.yAxis = d3.svg.axis()
+      .scale(this.y)
+      .orient("left")
+      .ticks(15)
+      .tickSize(-2400);
   },
 
-  render: function () {
+  render: function() {
     this.renderLayout();
     this.renderTemplate();
     return this;
   },
 
-  renderLayout: function () {
+  renderLayout: function() {
     var layout = new Kritikos.Views.Layout.Game({ model: this.model });
     this.renderChild(layout);
     this.$el.html(layout.el);
@@ -43,10 +56,28 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     var dy = real_y - this.center_y;
     var distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     //console.log(distance);
-    if (distance > 115) {
+    if (distance > 100) {
       console.log("load");
-      this.center_x = real_x;
-      this.center_y = real_y;
+      //(val / 10) * 10
+      this.center_x = Math.round(real_x / 10) * 10;
+      this.center_y = Math.round(real_y / 10) * 10;
+      real_x = this.center_y;
+      real_y = this.center_x;
+      console.log(Math.round(real_x) + ", " + Math.round(real_y));
+
+      var stellas = new Kritikos.Collections.Constellations();
+      stellas.fetch({
+        data: $.param({ x: real_x, y: real_y }),
+        success: _.bind(function() {
+          this.collection.add(stellas.models);
+          this.drawConstellations(this.collection.models);
+        }, this)
+      });
+      console.log(this.collection);
+      // var found = this.collection.find(function(stella){
+      //         return Number(stella.get('x')) === tranId;
+      // });
+
     }
 
     // var normalized_x = ((-1 * this.x.invert(d3.event.translate[0]))
@@ -65,52 +96,64 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     //Backbone.history.navigate("#starcom?x=" + x_coord + "&y=" + y_coord, { replace: true });
   },
 
-  setStella: function(d) {
-    return "translate(" + this.x(d.get("x") + this.x_offset) + "," +
-                          this.y(d.get("y") + this.y_offset) + ")";
-  },
+  // setStella: function(d) {
+  //   return "translate(" + this.x(d.get("x") + this.x_offset) + "," +
+  //                         this.y(d.get("y") + this.y_offset) + ")";
+  // },
 
   renderTemplate: function() {
     this.$el.append(JST['star_com/index']());
-
-    var quad_width    = 800,
-        quad_height   = 800;
-    var x = this.x,
-       y = this.y,
-       zoom_x = this.zoom_x,
-       zoom_y = this.zoom_y,
-       y_offset = this.y_offset,
-       x_offset = this.x_offset;
-
-    var xAxis = d3.svg.axis()
-      .scale(this.x)
-      .orient("bottom")
-      .ticks(15)
-      .tickSize(-2400);
-
-    var yAxis = d3.svg.axis()
-      .scale(this.y)
-      .orient("left")
-      .ticks(15)
-      .tickSize(-2400);
     var zoomOrigin = [-this.x(this.x_offset), -this.y(this.y_offset)];
     var zoom = d3.behavior.zoom()//.x(this.x).y(this.y)
       .translate(zoomOrigin).scaleExtent([0, 8]).on("zoom", this.zoom);
-    //var initZoom = [this.stella_x(0), this.stella_y(0)];
     this.vis = d3.select($('#starcom_map', this.$el).get(0))
       .append("svg:svg")
         .attr("class", "starcom")
         .attr("width", "100%")
-        .attr("height", quad_height)
+        .attr("height", this.quad_height)
         .attr("pointer-events", "all")
       .append('svg:g')
         .call(zoom)
       .append('svg:g')
         .attr("transform",
-          function(d) {
-            return "translate(" + -x(x_offset) + "," + -y(y_offset) + ")"; })
-        ;
+          _.bind(function(d) {
+            return "translate(" + -this.x(this.x_offset) + "," + -this.y(this.y_offset) + ")";
+          }, this));
+    this.drawConstellations(this.collection.models);
 
+    this.vis.append("g")
+      .attr("class", "x axis")
+      .attr("transform",
+        _.bind(function(d) {
+            return "translate(0," + this.width + ")"; }, this))
+      .call(this.xAxis);
+    this.vis.append("g")
+      .attr("class", "y axis")
+      .call(this.yAxis);
+
+    var centerC = this.vis.append("g")
+      .attr("class", "center")
+      .attr("transform",
+        _.bind(function(d) { return "translate(" + this.x(0) + "," +
+                                            this.y(0) + ")"; }, this));
+    centerC.append("circle")
+      .attr("r", 10);
+    centerC.append("svg:text")
+      .text(
+        function(d) { return "center (0, 0)"; });
+    var centerA = this.vis.append("g")
+      .attr("class", "center")
+      .attr("transform",
+        _.bind(function(d) { return "translate(" + this.x(0) + "," +
+                                              this.y(0) + ")"; }, this));
+    centerA.append("circle")
+      .attr("r", 10);
+    centerA.append("svg:text")
+      .text(
+        function(d) { return "center (0, 0)"; });
+  },
+
+  drawConstellations: function(data) {
     // var tf_offset = function() {
     //   //console.log(this);
     //   //self = this;
@@ -119,19 +162,24 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     //                         this.y(d.get("y") + y_offset) + ")"; };
     // };
 
-    var quad = this.vis.selectAll("g").data(this.collection.models);
+    var quad = this.vis.selectAll("g").data(data);
     var quadEnter = quad.enter().append("g");
     quadEnter.append("rect")
       .attr("class", "quad")
-      .attr("width", quad_width)
-      .attr("height", quad_height)
-      .attr("transform", this.setStella);
+      .attr("width", this.quad_width)
+      .attr("height", this.quad_height)
+      .attr("transform",
+        _.bind(function(d) {
+          console.log(d.get("x") + this.x_offset);
+          console.log(this.x(d.get("x") + this.x_offset));
+          return "translate(" + this.x(d.get("x") + this.x_offset) + "," +
+                                this.y(d.get("y") + this.y_offset) + ")"; }, this));
 
     quadEnter.append("svg:text")
       .attr("transform",
-        function(d) {
-          return "translate(" + x(d.get("x") + x_offset + 5) + "," +
-                                y(d.get("y") + y_offset - 5) + ")"; })
+        _.bind(function(d) {
+          return "translate(" + this.x(d.get("x") + this.x_offset + 5) + "," +
+                                this.y(d.get("y") + this.y_offset - 5) + ")"; }, this))
       .text(function(d) { return d.get("name"); });
 
     // quadEnter.append("g")
@@ -157,54 +205,12 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     var solEnter = sols.enter().append("g")
       .attr("class", "sol")
       .attr("transform",
-        function(d) { return "translate(" + x(d.get("x")) + "," +
-                                            y(d.get("y")) + ")"; });
+        _.bind(function(d) { return "translate(" + this.x(d.get("x")) + "," +
+                                            this.y(d.get("y")) + ")"; }, this));
     solEnter.append("circle")
       .attr("r", 7);
     solEnter.append("svg:text")
       .text(
-        function(d) { return "(" + d.get("x") + ", " + d.get("y") + ")"; });
-
-    this.vis.append("g")
-      .attr("class", "x axis")
-      .attr("transform",
-        function(d) {
-            return "translate(0," + 2400 + ")"; })
-      .call(xAxis);
-    this.vis.append("g")
-      .attr("class", "y axis")
-      .call(yAxis);
-
-    var centerC = this.vis.append("g")
-      .attr("class", "center")
-      .attr("transform",
-        function(d) { return "translate(" + x(0) + "," +
-                                            y(0) + ")"; });
-    centerC.append("circle")
-      .attr("r", 10);
-    centerC.append("svg:text")
-      .text(
-        function(d) { return "center (0, 0)"; });
-    var centerA = this.vis.append("g")
-      .attr("class", "center")
-      .attr("transform",
-        function(d) { return "translate(" + x(0) + "," +
-                                            y(0) + ")"; });
-    centerA.append("circle")
-      .attr("r", 10);
-    centerA.append("svg:text")
-      .text(
-        function(d) { return "center (0, 0)"; });
-
-    // var zoom_fn = this.zoom;
-    // d3.transition().duration(750).tween("zoom", function() {
-    //   var ix = d3.interpolate(x.domain(), [-this.width / 2, this.width / 2]),
-    //       iy = d3.interpolate(y.domain(), [-this.height / 2, this.height / 2]);
-    //   console.log(ix);
-    //   return function(t) {
-    //     zoom.x(x.domain(ix(t))).y(y.domain(iy(t)));
-    //     zoom_fn();
-    //   };
-    // });
+        _.bind(function(d) { return "(" + d.get("x") + ", " + d.get("y") + ")"; }, this));
   }
 });

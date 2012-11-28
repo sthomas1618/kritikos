@@ -10,6 +10,7 @@
 #  updated_at :datetime         not null
 #
 
+
 class Constellation < ActiveRecord::Base
 	attr_accessible :name, :x, :y
 

@@ -38,10 +38,61 @@ def make_constellations
   Constellation.create!(name: "Leo",
                         x: 100,
                         y: -100)
+
+  # Constellation.create!(name: "Spectre",
+  #                       x: -200,
+  #                       y: 100 )
+  # Constellation.create!(name: "Norma",
+  #                       x: -200,
+  #                       y: 0 )
+  # Constellation.create!(name: "Lynx",
+  #                       x: -200,
+  #                       y: -100 )
+  # Constellation.create!(name: "Andromeda",
+  #                       x: -200,
+  #                       y: -200 )
+  # Constellation.create!(name: "Ara",
+  #                       x: -100,
+  #                       y: -200 )
+  # Constellation.create!(name: "Taurus",
+  #                       x: 0,
+  #                       y: -200 )
+  # Constellation.create!(name: "Ursa Minor",
+  #                       x: 100,
+  #                       y: -200 )
+  # Constellation.create!(name: "Ursa Major",
+  #                       x: 200,
+  #                       y: -200)
+
+  # Constellation.create!(name: "Phoenix",
+  #                       x: 200,
+  #                       y: -100 )
+  # Constellation.create!(name: "Pisces",
+  #                       x: 200,
+  #                       y: 0 )
+  # Constellation.create!(name: "Lyra",
+  #                       x: 200,
+  #                       y: 100 )
+  # Constellation.create!(name: "Virgo",
+  #                       x: 200,
+  #                       y: 200 )
+  # Constellation.create!(name: "Triangulum",
+  #                       x: 100,
+  #                       y: 200 )
+  # Constellation.create!(name: "Piscis Austrinus",
+  #                       x: 0,
+  #                       y: 200 )
+  # Constellation.create!(name: "Leo",
+  #                       x: -100,
+  #                       y: 200 )
+  # Constellation.create!(name: "Leo Minor",
+  #                       x: -200,
+  #                       y: 200)
+
 end
 
 def make_solar_systems
-  constellations = Constellation.all(limit: 9)
+  constellations = Constellation.all
   constellations.each do |stella|
     min_x = stella.x - 50
     max_x = stella.x + 50
