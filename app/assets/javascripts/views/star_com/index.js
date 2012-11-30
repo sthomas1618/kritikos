@@ -23,13 +23,13 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
       .scale(this.x)
       .orient("bottom")
       .ticks(15)
-      .tickSize(-2400);
+      .tickSize(- this.width);
 
     this.yAxis = d3.svg.axis()
       .scale(this.y)
       .orient("left")
       .ticks(15)
-      .tickSize(-2400);
+      .tickSize(-this.height);
   },
 
   render: function() {
@@ -55,35 +55,22 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     var dx = real_x - this.center_x;
     var dy = real_y - this.center_y;
     var distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-    //console.log(distance);
     if (distance > 100) {
-      console.log("load");
-      //(val / 10) * 10
       this.center_x = Math.round(real_x / 10) * 10;
       this.center_y = Math.round(real_y / 10) * 10;
-      real_x = this.center_y;
-      real_y = this.center_x;
-      console.log(Math.round(real_x) + ", " + Math.round(real_y));
-
+      real_x = this.center_x;
+      real_y = this.center_y;
+      var closest = this.collection.findClosest(real_x, real_y);
       var stellas = new Kritikos.Collections.Constellations();
       stellas.fetch({
-        data: $.param({ x: real_x, y: real_y }),
+        data: $.param({ x: closest.get("x"), y: closest.get("y") }),
         success: _.bind(function() {
           this.collection.add(stellas.models);
           this.drawConstellations(this.collection.models);
         }, this)
       });
-      console.log(this.collection);
-      // var found = this.collection.find(function(stella){
-      //         return Number(stella.get('x')) === tranId;
-      // });
-
     }
 
-    // var normalized_x = ((-1 * this.x.invert(d3.event.translate[0]))
-    //                     + (this.x_offset * 5)) * d3.event.scale;
-    // var normalized_y = ((-1 * this.y.invert(d3.event.translate[1]))
-    //                     + (this.y_offset * 5)) * d3.event.scale;
     var x = this.x,
         y = this.y;
     var centerC = this.vis.select("g.center")
@@ -95,11 +82,6 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
 
     //Backbone.history.navigate("#starcom?x=" + x_coord + "&y=" + y_coord, { replace: true });
   },
-
-  // setStella: function(d) {
-  //   return "translate(" + this.x(d.get("x") + this.x_offset) + "," +
-  //                         this.y(d.get("y") + this.y_offset) + ")";
-  // },
 
   renderTemplate: function() {
     this.$el.append(JST['star_com/index']());
@@ -154,24 +136,15 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
   },
 
   drawConstellations: function(data) {
-    // var tf_offset = function() {
-    //   //console.log(this);
-    //   //self = this;
-    //   //console.log(self);
-    //   return function(d) { return "translate(" + this.x(d.get("x") + x_offset) + "," +
-    //                         this.y(d.get("y") + y_offset) + ")"; };
-    // };
-
-    var quad = this.vis.selectAll("g").data(data);
-    var quadEnter = quad.enter().append("g");
+    var quad = this.vis.selectAll("g.stella").data(data);
+    var quadEnter = quad.enter().append("g")
+      .attr("class", "stella");
     quadEnter.append("rect")
       .attr("class", "quad")
       .attr("width", this.quad_width)
       .attr("height", this.quad_height)
       .attr("transform",
         _.bind(function(d) {
-          console.log(d.get("x") + this.x_offset);
-          console.log(this.x(d.get("x") + this.x_offset));
           return "translate(" + this.x(d.get("x") + this.x_offset) + "," +
                                 this.y(d.get("y") + this.y_offset) + ")"; }, this));
 

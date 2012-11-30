@@ -8,7 +8,7 @@ class ConstellationsController < ApplicationController
   end
 
   def show
-  	distance = 100
+  	distance = 150
 		center_point = (params[:x] && params[:y]) ? [params[:x], params[:y]] : [0, 0]
 		box = Starcharter::Calculations.bounding_box(center_point, distance)
   	@constellation = Constellation.within_bounding_box(box).first
