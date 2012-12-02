@@ -193,3 +193,33 @@ rect.quad {
   stroke: #fff;
   stroke-width: 3px;
 }
+
+.stella {
+  &:hover .quad {
+    fill: #eee;
+  }
+  &:hover .box line {
+    stroke: #B3C2DD;
+  }
+}
+
+.box line {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 3px;
+}
+
+.sol > circle:hover {
+  stroke: #AFCADF;
+  stroke-width: 2px;
+}
+
+// .sol > circle {
+//   background: -webkit-gradient(
+//       linear,
+//       left bottom,
+//       left top,
+//       color-stop(0.22, rgb(204,153,0)),
+//       color-stop(1, rgb(255,219,112))
+//   );
+// }

@@ -88,19 +88,35 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     var zoomOrigin = [-this.x(this.x_offset), -this.y(this.y_offset)];
     var zoom = d3.behavior.zoom()//.x(this.x).y(this.y)
       .translate(zoomOrigin).scaleExtent([0, 8]).on("zoom", this.zoom);
-    this.vis = d3.select($('#starcom_map', this.$el).get(0))
+    var svg = d3.select($('#starcom_map', this.$el).get(0))
       .append("svg:svg")
         .attr("class", "starcom")
         .attr("width", "100%")
         .attr("height", this.quad_height)
-        .attr("pointer-events", "all")
-      .append('svg:g')
-        .call(zoom)
-      .append('svg:g')
-        .attr("transform",
-          _.bind(function(d) {
-            return "translate(" + -this.x(this.x_offset) + "," + -this.y(this.y_offset) + ")";
-          }, this));
+        .attr("pointer-events", "all");
+        var gradient = svg.append("defs").append("linearGradient")
+      .attr("id", "gradient")
+      .attr("x1", "0%")
+      .attr("x2", "100")
+      .attr("y1", "100%")
+      .attr("y2", "0%");
+    gradient.append("stop")
+      .attr("offset", "0")
+      .attr("stop-color", "#F2CA00");
+    gradient.append("stop")
+      .attr("offset", "1")
+      .attr("stop-color", "#FDFFEB");
+    this.vis = svg.append('g')
+      .call(zoom)
+    .append('g')
+      .attr("transform",
+        _.bind(function(d) {
+          return "translate(" + -this.x(this.x_offset) + "," + -this.y(this.y_offset) + ")";
+        }, this));
+
+//         <linearGradient id="g454" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="100%" y2="0%">
+// <stop stop-color="#CC9900" offset="0"/><stop stop-color="#FFDB70" offset="1"/>
+// </linearGradient>
     this.drawConstellations(this.collection.models);
 
     // this.vis.append("g")
@@ -143,8 +159,7 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
       .attr("class", "quad")
       .attr("width", this.quad_width)
       .attr("height", this.quad_height)
-      .attr("transform",
-        _.bind(function(d) {
+      .attr("transform", _.bind(function(d) {
           return "translate(" + this.x(d.get("x") + this.x_offset) + "," +
                                 this.y(d.get("y") + this.y_offset) + ")"; }, this));
 
@@ -154,21 +169,59 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
           return "translate(" + this.x(d.get("x") + this.x_offset + 5) + "," +
                                 this.y(d.get("y") + this.y_offset - 5) + ")"; }, this))
       .text(function(d) { return d.get("name"); });
+    var gridLines = quadEnter.append("g")
+          .attr("class", "box");
+    gridLines.append("svg:line")
+      .attr("x1", _.bind(function(d) {
+        return this.x(d.get("x") + this.x_offset);}, this))
+      .attr("y1", _.bind(function(d) {
+        return this.y(d.get("y") + this.y_offset) + 2; }, this))
+      .attr("x2", _.bind(function(d) {
+        return this.x(d.get("x") + this.x_offset) + this.quad_width; }, this))
+      .attr("y2", _.bind(function(d) {
+        return this.y(d.get("y") + this.y_offset) + 2; }, this));
+    gridLines.append("svg:line")
+      .attr("x1", _.bind(function(d) {
+        return this.x(d.get("x") + this.x_offset);}, this))
+      .attr("y1", _.bind(function(d) {
+        return this.y(d.get("y") - this.y_offset) - 2; }, this))
+      .attr("x2", _.bind(function(d) {
+        return this.x(d.get("x") + this.x_offset) + this.quad_width; }, this))
+      .attr("y2", _.bind(function(d) {
+        return this.y(d.get("y") - this.y_offset) - 2; }, this));
+    gridLines.append("svg:line")
+      .attr("x1", _.bind(function(d) {
+        return this.x(d.get("x") + this.x_offset) + 2;}, this))
+      .attr("y1", _.bind(function(d) {
+        return this.y(d.get("y") + this.y_offset); }, this))
+      .attr("x2", _.bind(function(d) {
+        return this.x(d.get("x") + this.x_offset) + 2; }, this))
+      .attr("y2", _.bind(function(d) {
+        return this.y(d.get("y") + this.y_offset) + this.quad_height; }, this));
+    gridLines.append("svg:line")
+      .attr("x1", _.bind(function(d) {
+        return this.x(d.get("x") - this.x_offset) - 2;}, this))
+      .attr("y1", _.bind(function(d) {
+        return this.y(d.get("y") + this.y_offset); }, this))
+      .attr("x2", _.bind(function(d) {
+        return this.x(d.get("x") - this.x_offset) - 2; }, this))
+      .attr("y2", _.bind(function(d) {
+        return this.y(d.get("y") + this.y_offset) + this.quad_height; }, this));
 
-    quadEnter.append("g")
-      .attr("class", "x axis")
-      .attr("transform",
-        _.bind(function(d) {
-          return "translate(" + this.x(d.get("x") + this.x_offset + 1) + "," +
-                                this.y(d.get("y") + this.y_offset + 1) + ")"; }, this))
-      .call(this.xAxis);
-    quadEnter.append("g")
-      .attr("class", "y axis")
-      .attr("transform",
-        _.bind(function(d) {
-          return "translate(" + this.x(d.get("x") + this.x_offset + 1) + "," +
-                                this.y(d.get("y") + this.y_offset + 1) + ")"; }, this))
-      .call(this.yAxis);
+    // quadEnter.append("g")
+    //   .attr("class", "x axis")
+    //   .attr("transform",
+    //     _.bind(function(d) {
+    //       return "translate(" + this.x(d.get("x") + this.x_offset + 1) + "," +
+    //                             this.y(d.get("y") + this.y_offset + 1) + ")"; }, this))
+    //   .call(this.xAxis);
+    // quadEnter.append("g")
+    //   .attr("class", "y axis")
+    //   .attr("transform",
+    //     _.bind(function(d) {
+    //       return "translate(" + this.x(d.get("x") + this.x_offset + 1) + "," +
+    //                             this.y(d.get("y") + this.y_offset + 1) + ")"; }, this))
+    //   .call(this.yAxis);
 
     // var sols = quadEnter.selectAll("circle.dot").data(
     //     function(d, i) { return d.get("solar_systems").models; });
@@ -187,9 +240,10 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
         _.bind(function(d) { return "translate(" + this.x(d.get("x")) + "," +
                                             this.y(d.get("y")) + ")"; }, this));
     solEnter.append("circle")
-      .attr("r", 7);
-    solEnter.append("svg:text")
-      .text(
-        _.bind(function(d) { return "(" + d.get("x") + ", " + d.get("y") + ")"; }, this));
+      .attr("r", 7)
+      .attr("fill", "url(#gradient)");
+    // solEnter.append("svg:text")
+    //   .text(
+    //     _.bind(function(d) { return "(" + d.get("x") + ", " + d.get("y") + ")"; }, this));
   }
 });
