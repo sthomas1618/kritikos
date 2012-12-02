@@ -22,13 +22,13 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     this.xAxis = d3.svg.axis()
       .scale(this.x)
       .orient("bottom")
-      .ticks(15)
-      .tickSize(- this.width);
+      .ticks(10)
+      .tickSize(-this.width);
 
     this.yAxis = d3.svg.axis()
       .scale(this.y)
       .orient("left")
-      .ticks(15)
+      .ticks(10)
       .tickSize(-this.height);
   },
 
@@ -103,15 +103,15 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
           }, this));
     this.drawConstellations(this.collection.models);
 
-    this.vis.append("g")
-      .attr("class", "x axis")
-      .attr("transform",
-        _.bind(function(d) {
-            return "translate(0," + this.width + ")"; }, this))
-      .call(this.xAxis);
-    this.vis.append("g")
-      .attr("class", "y axis")
-      .call(this.yAxis);
+    // this.vis.append("g")
+    //   .attr("class", "x axis")
+    //   .attr("transform",
+    //     _.bind(function(d) {
+    //         return "translate(0," + this.width + ")"; }, this))
+    //   .call(this.xAxis);
+    // this.vis.append("g")
+    //   .attr("class", "y axis")
+    //   .call(this.yAxis);
 
     var centerC = this.vis.append("g")
       .attr("class", "center")
@@ -155,14 +155,20 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
                                 this.y(d.get("y") + this.y_offset - 5) + ")"; }, this))
       .text(function(d) { return d.get("name"); });
 
-    // quadEnter.append("g")
-    //   .attr("class", "x axis")
-    //   .attr("transform", this.setStella)
-    //   .call(xAxis);
-    // quadEnter.append("g")
-    //   .attr("class", "y axis")
-    //   .attr("transform", this.setStella)
-    //   .call(yAxis);
+    quadEnter.append("g")
+      .attr("class", "x axis")
+      .attr("transform",
+        _.bind(function(d) {
+          return "translate(" + this.x(d.get("x") + this.x_offset + 1) + "," +
+                                this.y(d.get("y") + this.y_offset + 1) + ")"; }, this))
+      .call(this.xAxis);
+    quadEnter.append("g")
+      .attr("class", "y axis")
+      .attr("transform",
+        _.bind(function(d) {
+          return "translate(" + this.x(d.get("x") + this.x_offset + 1) + "," +
+                                this.y(d.get("y") + this.y_offset + 1) + ")"; }, this))
+      .call(this.yAxis);
 
     // var sols = quadEnter.selectAll("circle.dot").data(
     //     function(d, i) { return d.get("solar_systems").models; });
