@@ -15,14 +15,14 @@ end
 
 
 #\u00F6 == ö
-stella_names = ["Antlia", "Apus", "Aquarius", "Aquila", "Ara", "Aries", "Auriga", "Bo\u00F6tes", 
-                "Caelum", "Camelopardalis", "Cancer", "Canes Venatici", "Canis Major", 
+stella_names = ["Antlia", "Apus", "Aquarius", "Aquila", "Ara", "Aries", "Auriga", "Bo\u00F6tes",
+                "Caelum", "Camelopardalis", "Cancer", "Canes Venatici", "Canis Major",
                 "Canis Minor", "Capricornus", "Carina", "Cassiopeia", "Centaurus", "Cepheus",
                 "Cetus", "Chamaeleon", "Circinus", "Columba", "Coma Berenices", "Corona Austrina",
                 "Corona Borealis", "Corvus", "Crater", "Crux", "Cygnus", "Delphinus", "Dorado",
                 "Draco", "Equuleus", "Eridanus", "Fornax", "Gemini", "Grus", "Hercules",
                 "Horologium", "Hydra", "Hydrus", "Indus", "Lacerta", "Leo", "Leo Minor", "Lepus",
-                "Libra", "Lupus", "Lynx", "Lyra", "Mensa", "Microscopium", "Monoceros", 
+                "Libra", "Lupus", "Lynx", "Lyra", "Mensa", "Microscopium", "Monoceros",
                 "Musca", "Norma", "Octans", "Ophiuchus", "Orion", "Pavo", "Pegasus", "Perseus",
                 "Phoenix", "Pictor", "Pisces", "Piscis Austrinus", "Puppis", "Pyxis", "Reticulum",
                 "Sagitta", "Sagittarius", "Scorpius", "Sculptor", "Scutum", "Serpens", "Sextans",
@@ -40,11 +40,9 @@ segment_length = 1
 i = 0
 j = 0
 segment_passed = 0
-stella_names.count.times do |k| 
+stella_names.count.times do |k|
     #puts "#{i}, #{j}"
-    Constellation.create!(name: stella_names[k],
-                      x: i,
-                      y: j )
+    Constellation.create!(name: stella_names[k], x: i, y: j)
     i += di
     j += dj
     segment_passed += 1
