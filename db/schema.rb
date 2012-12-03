@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121106180257) do
+ActiveRecord::Schema.define(:version => 20121203064015) do
 
   create_table "constellations", :force => true do |t|
     t.string   "name"
@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(:version => 20121106180257) do
     t.integer  "tick",       :default => 0, :null => false
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
+  end
+
+  create_table "planets", :force => true do |t|
+    t.integer  "solar_system_id"
+    t.string   "name"
+    t.float    "x"
+    t.float    "y"
+    t.boolean  "homeworld"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "solar_systems", :force => true do |t|
