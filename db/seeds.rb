@@ -13,7 +13,8 @@ if(GameClock.count == 0)
     puts "Clock exists."
 end
 
-# create constellations
+
+#\u00F6 == ö
 stella_names = ["Antlia", "Apus", "Aquarius", "Aquila", "Ara", "Aries", "Auriga", "Bo\u00F6tes", 
                 "Caelum", "Camelopardalis", "Cancer", "Canes Venatici", "Canis Major", 
                 "Canis Minor", "Capricornus", "Carina", "Cassiopeia", "Centaurus", "Cepheus",
@@ -30,6 +31,7 @@ stella_names = ["Antlia", "Apus", "Aquarius", "Aquila", "Ara", "Aries", "Auriga"
                 "Gladius", "Javelin", "Spartan", "Spectre"]
 stella_names.shuffle!
 
+# create constellations
 # spiral algorithm translated from:
 #http://stackoverflow.com/questions/3706219/algorithm-for-iterating-over-an-outward-spiral-on-a-discrete-2d-grid-from-the-or
 di = 100
