@@ -10,7 +10,8 @@ Kritikos.Routers.Game = Support.SwappingRouter.extend({
 
   routes: {
     "": "index",
-    "starcom": "starcom"
+    "starcom": "starcom",
+    "starcom/solar_system/:id": "showSystem"
   },
 
   index: function() {
@@ -20,13 +21,24 @@ Kritikos.Routers.Game = Support.SwappingRouter.extend({
 
   starcom: function() {
     var stellas = new Kritikos.Collections.Constellations();
-    //var sol_systems = new Kritikos.Collections.SolarSystems();
     var game_router = this;
     var clock = this.clock;
     stellas.fetch({
       success: function() {
-        var view = new Kritikos.Views.StarCom.Index({collection: stellas,
-                                                     model: clock });
+        var view = new Kritikos.Views.StarCom.Index({collection: stellas });
+        game_router.swap(view);
+      }
+    });
+  },
+
+  showSystem: function(id) {
+    var sol = Kritikos.Models.SolarSystem.findOrCreate(id);
+    sol.fetch();
+    var game_router = this;
+    var clock = this.clock;
+    sol.fetch({
+      success: function() {
+        var view = new Kritikos.Views.StarCom.Index({ model: sol });
         game_router.swap(view);
       }
     });

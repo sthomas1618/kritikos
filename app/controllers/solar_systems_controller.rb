@@ -8,6 +8,10 @@ class SolarSystemsController < ApplicationController
     @sol_systems = @stella.solar_systems
   end
 
+  def show
+    @sol = SolarSystem.find(params[:id])
+  end
+
   def all_sol_systems
   	sol1 = OpenStruct.new( {
 			  			x: 1.2,
