@@ -1,2 +1,5 @@
 object @sol
-attributes :id, :orbital_radius, :constellation_id
+attributes :id, :x, :y, :constellation_id
+child :planets do
+  attributes :id, :orbital_radius
+end

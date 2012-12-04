@@ -81,10 +81,15 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
   },
 
   swapToSol: function(d) {
-    this.parent.model = d;
-    this.leave();
-    Backbone.history.navigate("#starcom/solar_system/" + d.id);
-    this.parent.renderSolarSystem();
+    var planets = d.get("planets");
+    planets.fetch({
+      success: _.bind(function() {
+        this.parent.model = d;
+        this.leave();
+        Backbone.history.navigate("#starcom/solar_system/" + d.id, {replace: true});
+        this.parent.renderSolarSystem();
+      }, this)
+    });
   },
 
   generateStars: function(number) {
@@ -111,23 +116,8 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
         .attr("width", "940px")
         .attr("height", this.quad_height)
         .attr("pointer-events", "all");
-    // var gradient = svg.append("defs").append("linearGradient")
-    //   .attr("id", "gradient")
-    //   .attr("x1", "100%")
-    //   .attr("x2", "0")
-    //   .attr("y1", "100%")
-    //   .attr("y2", "0");
-    // gradient.append("stop")
-    //   .attr("offset", "0")
-    //   .attr("stop-color", "#F2CA00");
-    // gradient.append("stop")
-    //   .attr("offset", ".7")
-    //   .attr("stop-color", "#FFFED6");
-    // gradient.append("stop")
-    //   .attr("offset", "1")
-    //   .attr("stop-color", "#FDFFEB");
     svg.append("g").selectAll("circle")
-      .data(this.generateStars(350))
+      .data(this.generateStars(1000))
         .enter()
       .append("circle")
           .attr("class", "star")
@@ -141,9 +131,6 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
         _.bind(function(d) {
           return "translate(" + -this.x(this.x_offset) + "," + -this.y(this.y_offset) + ")";
         }, this));
-//         <linearGradient id="g454" gradientUnits="userSpaceOnUse" x1="0%" y1="100%" x2="100%" y2="0%">
-// <stop stop-color="#CC9900" offset="0"/><stop stop-color="#FFDB70" offset="1"/>
-// </linearGradient>
     this.drawConstellations(this.collection.models);
 
     // this.vis.append("g")

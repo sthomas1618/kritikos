@@ -7,7 +7,10 @@ Kritikos::Application.routes.draw do
   resources :constellations, only: [:index, :show] do
     resources :solar_systems, only: [:index]
   end
-  resources :solar_systems, only: [:show]
+  resources :solar_systems, only: [:show] do
+    resources :planets, only: [:index]
+  end
+  resources :planets, only: [:show]
 
   get "sys_com/index"
 

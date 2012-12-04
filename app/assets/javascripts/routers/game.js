@@ -33,6 +33,9 @@ Kritikos.Routers.Game = Support.SwappingRouter.extend({
 
   showSystem: function(id) {
     var sol = Kritikos.Models.SolarSystem.findOrCreate(id);
+    if (!sol) {
+      sol = new Kritikos.Models.SolarSystem({id: id});
+    }
     sol.fetch();
     var game_router = this;
     var clock = this.clock;

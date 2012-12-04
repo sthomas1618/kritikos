@@ -14,6 +14,7 @@ class SolarSystem < ActiveRecord::Base
 	attr_accessible :x, :y
 
 	belongs_to :constellation
+  has_many :planets
 
   validates :x, presence: true
   validates :y, presence: true

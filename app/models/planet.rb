@@ -12,9 +12,9 @@
 #
 
 class Planet < ActiveRecord::Base
-  attr_accessible :name, :distance_from_star
+  attr_accessible :name, :orbital_radius
 
   belongs_to :solar_system
 
-  validates :name, presence: true
+  validates :orbital_radius, presence: true
 end
