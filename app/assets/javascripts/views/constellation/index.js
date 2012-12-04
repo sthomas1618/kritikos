@@ -190,11 +190,13 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
           return "translate(" + this.x(d.get("x") + this.x_offset) + "," +
                                 this.y(d.get("y") + this.y_offset) + ")"; }, this));
 
-    quadEnter.append("svg:text")
-      .attr("transform",
-        _.bind(function(d) {
+    var stella_label = quadEnter.append("g")
+        .attr("class", "stella_label")
+        .attr("transform",
+          _.bind(function(d) {
           return "translate(" + this.x(d.get("x") + this.x_offset + 5) + "," +
-                                this.y(d.get("y") + this.y_offset - 5) + ")"; }, this))
+                                this.y(d.get("y") + this.y_offset - 5) + ")"; }, this));
+    stella_label.append("svg:text")
       .text(function(d) { return d.get("name"); });
     var gridLines = quadEnter.append("g")
           .attr("class", "box");
