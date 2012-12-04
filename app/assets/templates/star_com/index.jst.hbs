@@ -1,2 +1,23 @@
 <h2>Star Com</h2>
+<svg id="defs">
+        <linearGradient id="gradeSol" x1="100%" x2="0" y1="100%" y2="0">
+          <stop offset="0" stop-color="#F2CA00"></stop>
+          <stop offset=".7" stop-color="#FFFED6"></stop>
+          <stop offset="1" stop-color="#FDFFEB"></stop>
+        </linearGradient>
+        <filter id="glowSol">
+            <feColorMatrix type="matrix"
+                values=
+                "0 0 0 .9 0
+                 0 0 0 .9 0
+                 0 0 0 0 0
+                 0 0 0 1 0"/>
+            <feGaussianBlur stdDeviation="5.5" result="coloredBlur"/>
+            <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+</svg>
 <div id="starcom_map"></div>

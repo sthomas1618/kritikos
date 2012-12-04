@@ -1,2 +1,2 @@
 object @sol
-attributes :id, :x, :y, :constellation_id
+attributes :id, :orbital_radius, :constellation_id

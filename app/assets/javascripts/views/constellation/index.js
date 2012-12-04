@@ -6,13 +6,15 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
 
   initialize: function() {
     _.bindAll(this, "render", "renderTemplate", "zoom", "drawConstellations",
-              "swapToSol");
-    this.quad_width = 800;
-    this.quad_height = 800;
+              "swapToSol", "generateStars");
+    this.width       = 2820;
+    this.height      = 2400;
+    this.quad_width  = this.width / 3;
+    this.quad_height = this.height / 3;
+    // this.quad_width = 800;
+    // this.quad_height = 800;
     this.x_offset = -50; // Need to offset constellation because
     this.y_offset = 50;  // rect element starts on upper-left corner
-    this.width = 2400;
-    this.height = 2400;
     this.x = d3.scale.linear()
       .domain([-150, 150])
       .range([0, this.width]);
@@ -66,14 +68,14 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
       });
     }
 
-    var x = this.x,
-        y = this.y;
-    var centerC = this.vis.select("g.center")
-       .attr("transform",
-        function(d) { return "translate(" + x_coord + "," + y_coord + ")"; });
-    centerC.select("text")
-      .text(
-        function(d) { return "center (" + real_x + ", " + real_y + ")"; });
+    // var x = this.x,
+    //     y = this.y;
+    // var centerC = this.vis.select("g.center")
+    //    .attr("transform",
+    //     function(d) { return "translate(" + x_coord + "," + y_coord + ")"; });
+    // centerC.select("text")
+    //   .text(
+    //     function(d) { return "center (" + real_x + ", " + real_y + ")"; });
 
     //Backbone.history.navigate("#starcom?x=" + x_coord + "&y=" + y_coord, { replace: true });
   },
@@ -85,6 +87,20 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
     this.parent.renderSolarSystem();
   },
 
+  generateStars: function(number) {
+    var stars = [];
+    var max = 150;
+    var min = -150;
+    for(var i = 0; i < number; i++){
+        stars.push({
+            x: this.x(Math.floor(Math.random() * (max - min + 1)) + min),
+            y: this.y(Math.floor(Math.random() * (max - min + 1)) + min),
+            radius: Math.random() * 1.4
+        });
+    }
+    return stars;
+  },
+
   renderTemplate: function() {
     var zoomOrigin = [-this.x(this.x_offset), -this.y(this.y_offset)];
     var zoom = d3.behavior.zoom()//.x(this.x).y(this.y)
@@ -92,21 +108,32 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
     var svg = d3.select(this.el)
       .append("svg")
         .attr("class", "starcom")
-        .attr("width", "100%")
+        .attr("width", "940px")
         .attr("height", this.quad_height)
         .attr("pointer-events", "all");
-        var gradient = svg.append("defs").append("linearGradient")
-      .attr("id", "gradient")
-      .attr("x1", "0%")
-      .attr("x2", "100")
-      .attr("y1", "100%")
-      .attr("y2", "0%");
-    gradient.append("stop")
-      .attr("offset", "0")
-      .attr("stop-color", "#F2CA00");
-    gradient.append("stop")
-      .attr("offset", "1")
-      .attr("stop-color", "#FDFFEB");
+    // var gradient = svg.append("defs").append("linearGradient")
+    //   .attr("id", "gradient")
+    //   .attr("x1", "100%")
+    //   .attr("x2", "0")
+    //   .attr("y1", "100%")
+    //   .attr("y2", "0");
+    // gradient.append("stop")
+    //   .attr("offset", "0")
+    //   .attr("stop-color", "#F2CA00");
+    // gradient.append("stop")
+    //   .attr("offset", ".7")
+    //   .attr("stop-color", "#FFFED6");
+    // gradient.append("stop")
+    //   .attr("offset", "1")
+    //   .attr("stop-color", "#FDFFEB");
+    svg.append("g").selectAll("circle")
+      .data(this.generateStars(350))
+        .enter()
+      .append("circle")
+          .attr("class", "star")
+          .attr("cx", function(d) { return d.x; })
+          .attr("cy", function(d) { return d.y; })
+          .attr("r", function(d) { return d.radius; });
     this.vis = svg.append('g')
       .call(zoom)
     .append('g')
@@ -129,26 +156,26 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
     //   .attr("class", "y axis")
     //   .call(this.yAxis);
 
-    var centerC = this.vis.append("g")
-      .attr("class", "center")
-      .attr("transform",
-        _.bind(function(d) { return "translate(" + this.x(0) + "," +
-                                            this.y(0) + ")"; }, this));
-    centerC.append("circle")
-      .attr("r", 10);
-    centerC.append("svg:text")
-      .text(
-        function(d) { return "center (0, 0)"; });
-    var centerA = this.vis.append("g")
-      .attr("class", "center")
-      .attr("transform",
-        _.bind(function(d) { return "translate(" + this.x(0) + "," +
-                                              this.y(0) + ")"; }, this));
-    centerA.append("circle")
-      .attr("r", 10);
-    centerA.append("svg:text")
-      .text(
-        function(d) { return "center (0, 0)"; });
+    // var centerC = this.vis.append("g")
+    //   .attr("class", "center")
+    //   .attr("transform",
+    //     _.bind(function(d) { return "translate(" + this.x(0) + "," +
+    //                                         this.y(0) + ")"; }, this));
+    // centerC.append("circle")
+    //   .attr("r", 10);
+    // centerC.append("svg:text")
+    //   .text(
+    //     function(d) { return "center (0, 0)"; });
+    // var centerA = this.vis.append("g")
+    //   .attr("class", "center")
+    //   .attr("transform",
+    //     _.bind(function(d) { return "translate(" + this.x(0) + "," +
+    //                                           this.y(0) + ")"; }, this));
+    // centerA.append("circle")
+    //   .attr("r", 10);
+    // centerA.append("svg:text")
+    //   .text(
+    //     function(d) { return "center (0, 0)"; });
   },
 
   drawConstellations: function(data) {
@@ -240,8 +267,10 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
         _.bind(function(d) { return "translate(" + this.x(d.get("x")) + "," +
                                             this.y(d.get("y")) + ")"; }, this));
     solEnter.append("circle")
-      .attr("r", 7)
-      .attr("fill", "url(#gradient)")
+      .attr("r", 50)
+      .attr("fill", "url(#gradeSol)")
+      .attr("filter", "url(#glowSol)")
+      .attr("transform", "scale(.16)")
       .on("click", this.swapToSol);
     // solEnter.append("svg:text")
     //   .text(

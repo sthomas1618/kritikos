@@ -184,34 +184,56 @@ svg.starcom {
   shape-rendering: crispEdges;
 }
 
+
+
 rect.quad {
-  fill: #ddd;
+  fill: none;
+  /*fill: #ddd;*/
 }
 
-.axis path, .axis line {
+/* .axis path, .axis line {
   fill: none;
   stroke: #fff;
   stroke-width: 3px;
-}
+ } */
 
 .stella {
-  &:hover .quad {
-    fill: #eee;
-  }
+  /* &:hover .quad {
+     fill: #eee;
+  } */
   &:hover .box line {
-    stroke: #B3C2DD;
+    stroke: rgba(140, 185, 233, 0.79);
   }
 }
 
 .box line {
   fill: none;
-  stroke: #fff;
-  stroke-width: 3px;
+  stroke: rgba(207, 206, 206, 0.75);;
+  stroke-width: 7px;
 }
 
 .sol > circle:hover {
   stroke: #AFCADF;
-  stroke-width: 2px;
+  stroke-width: 25px;
+}
+
+.star {
+    fill: #fff;
+    stroke: rgba(255, 255, 255, .5);
+    stroke-width: .25px;
+}
+
+#starcom_map {
+    background-color: #333;
+    background-image: -webkit-gradient(linear, left top, right bottom, from(#000), to(rgba(34, 34, 34, 0))); 
+    background-image: -webkit-linear-gradient(left top, #000, rgba(34, 34, 34, 0));
+    background-image: -moz-linear-gradient(left top, #000, rgba(34, 34, 34, 0));
+    overflow: hidden;
+}
+
+#defs {
+    height: 0;
+    width:0;
 }
 
 // .sol > circle {
