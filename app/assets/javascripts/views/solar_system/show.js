@@ -88,7 +88,7 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
 
   drawSol: function(data) {
     var start = Date.now();
-    var speed = 3;
+    var speed = 6;
     var planets = this.vis.selectAll("g.planet").data(data);
     var planetEnter = planets.enter().append("g")
       .attr("class", "planet");
@@ -102,14 +102,15 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
       .on("click", this.swapToPlanet);
 
 
-    // d3.timer(_.bind(function() {
-    //   var angle = (Date.now() - start) * speed,
-    //   transform = _.bind(function(d) {
-    //     return "rotate(" + angle / this.x(d.get("orbital_radius")) + ")";
-    //   }, this);
-    //   this.vis.selectAll("g.planet").attr("transform", transform);
-    //   //this.vis.attr("transform", transform);
-    // }, this));
+    d3.timer(_.bind(function() {
+      var angle = (Date.now() - start) * speed,
+      transform = _.bind(function(d) {
+        return "rotate(" + angle / this.x(d.get("orbital_radius")) +
+                        "," + this.x(0) + "," + this.y(0) + ")";
+      }, this);
+      this.vis.selectAll("g.planet").attr("transform", transform);
+      //this.vis.attr("transform", transform);
+    }, this));
   }
 
 });
