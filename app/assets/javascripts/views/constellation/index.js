@@ -260,7 +260,7 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
       .attr("fill", "url(#gradeSol)")
       .attr("filter", "url(#glowSol)")
       .attr("transform", "scale(.16)")
-      .on("click", this.swapToSol);
+      .on("dblclick", this.swapToSol);
     // solEnter.append("svg:text")
     //   .text(
     //     _.bind(function(d) { return "(" + d.get("x") + ", " + d.get("y") + ")"; }, this));

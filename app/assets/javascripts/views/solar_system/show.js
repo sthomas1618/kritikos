@@ -123,7 +123,7 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
           console.log(this.x(d.get("orbital_radius")));
           return "translate(" + this.x(d.get("orbital_radius")) + "," +
                                 this.y(0) + "), scale(.1)"; }, this))
-      .on("click", this.swapToPlanet);
+      .on("dblclick", this.swapToPlanet);
 
 
     d3.timer(_.bind(function() {

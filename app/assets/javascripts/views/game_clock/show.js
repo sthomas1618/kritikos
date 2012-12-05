@@ -5,7 +5,7 @@ Kritikos.Views.GameClock.Show = Support.CompositeView.extend({
   id: "clock",
 
   initialize: function() {
-    _.bindAll(this, "render");
+    _.bindAll(this, "render", "renderTemplate");
     this.options.model.bind('change', this.render);
     //this.bindTo(this.clock, "add", this.render);
   },

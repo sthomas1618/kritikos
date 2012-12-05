@@ -25,7 +25,7 @@ Kritikos.Routers.Game = Support.SwappingRouter.extend({
     var clock = this.clock;
     stellas.fetch({
       success: function() {
-        var view = new Kritikos.Views.StarCom.Index({collection: stellas });
+        var view = new Kritikos.Views.StarCom.Index({collection: stellas, clock: clock });
         game_router.swap(view);
       }
     });
@@ -41,7 +41,7 @@ Kritikos.Routers.Game = Support.SwappingRouter.extend({
     var clock = this.clock;
     sol.fetch({
       success: function() {
-        var view = new Kritikos.Views.StarCom.Index({ model: sol });
+        var view = new Kritikos.Views.StarCom.Index({ model: sol, clock: clock });
         game_router.swap(view);
       }
     });

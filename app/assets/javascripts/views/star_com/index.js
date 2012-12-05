@@ -4,13 +4,14 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
   tagName: "section",
 
   initialize: function() {
-    _.bindAll(this, "render", "renderConstellations");
+    _.bindAll(this, "render", "renderConstellations", "renderClock");
+    this.clock = this.options.clock;
   },
 
   render: function() {
     //this.renderLayout();
     this.$el.html(JST['star_com/index']());
-
+    this.renderClock();
     if (this.collection) {
       this.renderConstellations();
     } else if (this.model) {
@@ -19,10 +20,10 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     return this;
   },
 
-  renderLayout: function() {
-    var layout = new Kritikos.Views.Layout.Game({ model: this.model });
+  renderClock: function() {
+    var layout = new Kritikos.Views.GameClock.Show({ model: this.clock });
     this.renderChild(layout);
-    this.$el.append(layout.el);
+    this.$el.children("#clock_holder").append(layout.el);
   },
 
   renderConstellations: function() {
