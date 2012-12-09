@@ -7,7 +7,8 @@ require 'active_record/base'
 include Clockwork
 
 handler do |job|
-  
+
 end
 
+#every(15.seconds, 'Advance_clock') { Resque.enqueue(Advance_clock) }
 every(10.minutes, 'Advance_clock') { Resque.enqueue(Advance_clock) }

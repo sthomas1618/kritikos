@@ -6,7 +6,8 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
   className: "sol",
 
   initialize: function() {
-    _.bindAll(this, "render", "drawSol", "generateStars", "zoom", "swapToPlanet");
+    _.bindAll(this, "render", "drawSol", "generateStars", "zoom", "swapToPlanet",
+              "slowOrbit", "speedUpOrbit", "startOrbit");
     this.width       = 940;
     this.height      = 800;
     this.x = d3.scale.linear()
@@ -15,6 +16,9 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
     this.y = d3.scale.linear()
       .domain([-0.5875, 0.5875])
       .range([this.height, 0]);
+    this.starts = {};
+    //this.start = Date.now();
+    this.speed = 6;
   },
 
   zoom: function(d) {
@@ -27,6 +31,36 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
     this.leave();
     //Backbone.history.navigate("#starcom/solar_system//" + d.id, {replace: true});
     this.parent.renderPlanet();
+  },
+
+  startOrbit: function() {
+    var transform = _.bind(function(d) {
+      var start = this.starts[d.id];
+      if (!start) {
+        this.starts[d.id] = Date.now();
+        start = this.starts[d.id];
+      }
+
+      var angle = ((Date.now() - start) * this.speed);
+      var degree = angle / this.x(d.get("orbital_radius"));
+      if(degree >= 360)
+      {
+        this.starts[d.id] = Date.now();
+        start = this.starts[d.id];
+        degree = ((Date.now() - this.start) * this.speed);
+      }
+      return "rotate(" + degree + "," + this.x(0) + "," + this.y(0) + ")";
+    }, this);
+
+    this.vis.selectAll("g.planet").attr("transform", transform);
+  },
+
+  slowOrbit: function(d) {
+    this.mod = 10;
+  },
+
+  speedUpOrbit: function(d) {
+    this.mod = 0;
   },
 
   randomNumber: function (min, max, dec) {
@@ -87,17 +121,11 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
   },
 
   drawSol: function(data) {
-    var start = Date.now();
-    var speed = 6;
-    console.log(this.x.invert(469));
     var arc = d3.svg.arc()
       .startAngle(0)
       .endAngle(6.28318531) // 360 degrees
       .innerRadius(_.bind(function(d) {
-         console.log("arc id: " + d.id);
-         console.log(d.get("orbital_radius"));
-         console.log(this.x(d.get("orbital_radius")));
-        return this.x(d.get("orbital_radius")) - 469; }, this))
+        return this.x(d.get("orbital_radius")) - 469; }, this)) // Magic number.
       .outerRadius(_.bind(function(d) { return this.x(d.get("orbital_radius")) - 469; }, this));
 
     var planets = this.vis.selectAll("g.planet").data(data);
@@ -118,22 +146,30 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
       .attr("fill", "url(#gradePlanet)")
       .attr("filter", "url(#glowPlanet)")
       .attr("transform", _.bind(function(d) {
-          console.log("circle id: " + d.id);
-          console.log(d.get("orbital_radius"));
-          console.log(this.x(d.get("orbital_radius")));
           return "translate(" + this.x(d.get("orbital_radius")) + "," +
                                 this.y(0) + "), scale(.1)"; }, this))
-      .on("dblclick", this.swapToPlanet);
+      .on("dblclick", this.swapToPlanet)
+      .on("mouseover", this.slowOrbit)
+      .on("mouseout", this.speedUpOrbit);
 
+    d3.timer(this.startOrbit);
 
-    d3.timer(_.bind(function() {
-      var angle = (Date.now() - start) * speed,
-      transform = _.bind(function(d) {
-        return "rotate(" + angle / this.x(d.get("orbital_radius")) +
-                        "," + this.x(0) + "," + this.y(0) + ")";
-      }, this);
-      this.vis.selectAll("g.planet").attr("transform", transform);
-    }, this));
+  //   d3.timer(_.bind(function() {
+  //     var angle = ((Date.now() - start) * this.speed);
+
+  //     var transform = _.bind(function(d) {
+  //       var degree = angle / this.x(d.get("orbital_radius"));
+  //       if(degree >= 360)
+  //       {
+  //         console.log(degree);
+  //         start = Date.now();
+  //         degree = ((Date.now() - start) * this.speed);
+  //       }
+  //       return "rotate(" + degree + "," + this.x(0) + "," + this.y(0) + ")";
+  //     }, this);
+
+  //     this.vis.selectAll("g.planet").attr("transform", transform);
+  //   }, this));
   }
 
 });
