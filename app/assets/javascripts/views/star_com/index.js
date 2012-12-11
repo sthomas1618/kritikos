@@ -12,10 +12,13 @@ Kritikos.Views.StarCom.Index = Support.CompositeView.extend({
     //this.renderLayout();
     this.$el.html(JST['star_com/index']());
     this.renderClock();
-    if (this.collection) {
+    var type = this.options.type;
+    if (type == "Constellations" && this.collection) {
       this.renderConstellations();
-    } else if (this.model) {
+    } else if (type == "SolarSystem" && this.model) {
       this.renderSolarSystem();
+    } else if (type == "Planet" && this.model) {
+      this.renderPlanet();
     }
     return this;
   },

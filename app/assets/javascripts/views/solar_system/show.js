@@ -31,7 +31,7 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
   swapToPlanet: function(d) {
     this.parent.model = d;
     this.leave();
-    //Backbone.history.navigate("#starcom/solar_system//" + d.id, {replace: true});
+    Backbone.history.navigate("#starcom/planets/" + d.id, {replace: true});
     this.parent.renderPlanet();
   },
 

@@ -17,4 +17,5 @@ class Planet < ActiveRecord::Base
   belongs_to :solar_system
 
   validates :orbital_radius, presence: true
+  validates :radius, presence: true
 end

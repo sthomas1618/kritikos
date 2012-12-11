@@ -11,7 +11,8 @@ Kritikos.Routers.Game = Support.SwappingRouter.extend({
   routes: {
     "": "index",
     "starcom": "starcom",
-    "starcom/solar_system/:id": "showSystem"
+    "starcom/solar_systems/:id": "showSystem",
+    "starcom/planets/:id": "showPlanet"
   },
 
   index: function() {
@@ -25,7 +26,10 @@ Kritikos.Routers.Game = Support.SwappingRouter.extend({
     var clock = this.clock;
     stellas.fetch({
       success: function() {
-        var view = new Kritikos.Views.StarCom.Index({collection: stellas, clock: clock });
+        var view = new Kritikos.Views.StarCom.Index({
+          type: "Constellations",
+          collection: stellas,
+          clock: clock });
         game_router.swap(view);
       }
     });
@@ -41,7 +45,29 @@ Kritikos.Routers.Game = Support.SwappingRouter.extend({
     var clock = this.clock;
     sol.fetch({
       success: function() {
-        var view = new Kritikos.Views.StarCom.Index({ model: sol, clock: clock });
+        var view = new Kritikos.Views.StarCom.Index({
+          type: "SolarSystem",
+          model: sol,
+          clock: clock });
+        game_router.swap(view);
+      }
+    });
+  },
+
+  showPlanet: function(id) {
+    var planet = Kritikos.Models.Planet.findOrCreate(id);
+    if (!planet) {
+      planet = new Kritikos.Models.Planet({id: id});
+    }
+    planet.fetch();
+    var game_router = this;
+    var clock = this.clock;
+    planet.fetch({
+      success: function() {
+        var view = new Kritikos.Views.StarCom.Index({
+          type: "Planet",
+          model: planet,
+          clock: clock });
         game_router.swap(view);
       }
     });

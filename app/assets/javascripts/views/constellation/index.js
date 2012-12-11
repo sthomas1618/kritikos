@@ -86,7 +86,7 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
       success: _.bind(function() {
         this.parent.model = d;
         this.leave();
-        Backbone.history.navigate("#starcom/solar_system/" + d.id, {replace: true});
+        Backbone.history.navigate("#starcom/solar_systems/" + d.id, {replace: true});
         this.parent.renderSolarSystem();
       }, this)
     });
