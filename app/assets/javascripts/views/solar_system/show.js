@@ -7,7 +7,7 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
 
   initialize: function() {
     _.bindAll(this, "render", "drawSol", "generateStars", "zoom", "swapToPlanet",
-              "slowOrbit", "speedUpOrbit", "startOrbit");
+              "startOrbit", "selectOrbit", "deselectOrbit");
     this.width       = 940;
     this.height      = 800;
     this.x = d3.scale.linear()
@@ -55,12 +55,20 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
     this.vis.selectAll("g.planet").attr("transform", transform);
   },
 
-  slowOrbit: function(d) {
-    this.mod = 10;
+  deselectOrbit: function(el, model) {
+    var transition = d3.select(el).transition().duration(750).delay(5);
+    transition.select("circle.body")
+      .attr("transform", _.bind(function(d) {
+        return "translate(" + this.x(d.get("orbital_radius")) + "," +
+                              this.y(0) + "), scale(.05)"; }, this));
   },
 
-  speedUpOrbit: function(d) {
-    this.mod = 0;
+  selectOrbit: function(el, model) {
+    var transition = d3.select(el).transition().duration(750).delay(250);
+    transition.select("circle.body")
+      .attr("transform", _.bind(function(d) {
+        return "translate(" + this.x(d.get("orbital_radius")) + "," +
+                              this.y(0) + "), scale(.15)"; }, this));
   },
 
   randomNumber: function (min, max, dec) {
@@ -109,67 +117,67 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
           return "translate(" + this.x(-0.5) + "," +
                                 this.y(0.5875) + ")"; }, this));
     this.vis.append("circle")
-      .attr("r", 50)
+      .attr("r", 100)
       .attr("fill", "url(#gradeSol)")
       .attr("filter", "url(#glowSol)")
       .attr("transform", _.bind(function(d) {
           return "translate(" + this.x(0) + "," +
-                                this.y(0) + "), scale(.6)"; }, this));
+                                this.y(0) + "), scale(.4)"; }, this));
     var planets = this.model.get("planets");
     this.drawSol(planets.models);
     return this;
   },
 
   drawSol: function(data) {
-    var arc = d3.svg.arc()
+    var orbital_arc = d3.svg.arc()
       .startAngle(0)
       .endAngle(6.28318531) // 360 degrees
       .innerRadius(_.bind(function(d) {
-        return this.x(d.get("orbital_radius")) - 469; }, this)) // Magic number.
-      .outerRadius(_.bind(function(d) { return this.x(d.get("orbital_radius")) - 469; }, this));
+        return this.x(d.get("orbital_radius")) - 470; }, this)) // Magic number.
+      .outerRadius(_.bind(function(d) { return this.x(d.get("orbital_radius")) - 470; }, this));
 
+    var selector_arc = d3.svg.arc()
+      .startAngle(0)
+      .endAngle(6.28318531) // 360 degrees
+      .innerRadius(_.bind(function(d) {
+        return this.x(d.get("orbital_radius")) - 465; }, this))
+      .outerRadius(_.bind(function(d) { return this.x(d.get("orbital_radius")) - 475; }, this));
+
+    var view = this;
     var planets = this.vis.selectAll("g.planet").data(data);
     var planetEnter = planets.enter().append("g")
-      .attr("class", "planet");
+      .attr("class", "planet")
+      .on("dblclick", this.swapToPlanet)
+      .on("mouseover", function(d) { view.selectOrbit(this, d); })
+      .on("mouseout", function(d) { view.deselectOrbit(this, d); });
 
     planetEnter.append("path")
       .attr("class", "orbit")
-      .attr("d", arc)
+      .attr("d", orbital_arc)
       .attr("fill", "#fff")
       .style("stroke", "#fff")
       .attr("transform", _.bind(function(d) {
-          return "translate(" + this.x(0) + "," + this.y(0) + ")"; }, this));
+        return "translate(" + this.x(0) + "," + this.y(0) + ")"; }, this));
 
     planetEnter.append("circle")
-      .attr("r", 50)
+      .attr("r", 100)
       .attr("class", "body")
       .attr("fill", "url(#gradePlanet)")
       .attr("filter", "url(#glowPlanet)")
       .attr("transform", _.bind(function(d) {
-          return "translate(" + this.x(d.get("orbital_radius")) + "," +
-                                this.y(0) + "), scale(.1)"; }, this))
-      .on("dblclick", this.swapToPlanet)
-      .on("mouseover", this.slowOrbit)
-      .on("mouseout", this.speedUpOrbit);
+        return "translate(" + this.x(d.get("orbital_radius")) + "," +
+                              this.y(0) + "), scale(.05)"; }, this));
+
+      planetEnter.append("path")
+      .attr("class", "overlay_orbit")
+      .attr("d", selector_arc)
+      .attr("fill", "none")
+      .attr("transform", _.bind(function(d) {
+        return "translate(" + this.x(0) + "," + this.y(0) + ")"; }, this));
+
+
 
     d3.timer(this.startOrbit);
-
-  //   d3.timer(_.bind(function() {
-  //     var angle = ((Date.now() - start) * this.speed);
-
-  //     var transform = _.bind(function(d) {
-  //       var degree = angle / this.x(d.get("orbital_radius"));
-  //       if(degree >= 360)
-  //       {
-  //         console.log(degree);
-  //         start = Date.now();
-  //         degree = ((Date.now() - start) * this.speed);
-  //       }
-  //       return "rotate(" + degree + "," + this.x(0) + "," + this.y(0) + ")";
-  //     }, this);
-
-  //     this.vis.selectAll("g.planet").attr("transform", transform);
-  //   }, this));
   }
 
 });

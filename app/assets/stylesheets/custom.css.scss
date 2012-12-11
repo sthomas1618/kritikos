@@ -184,23 +184,36 @@ svg.starcom {
   shape-rendering: crispEdges;
 }
 
+#starcom_map {
+    background-color: #333;
+    background-image: -webkit-gradient(linear, left top, right bottom, from(#000), to(rgba(34, 34, 34, 0)));
+    background-image: -webkit-linear-gradient(left top, #000, rgba(34, 34, 34, 0));
+    background-image: -moz-linear-gradient(left top, #000, rgba(34, 34, 34, 0));
+    overflow: hidden;
+}
 
+#clock_holder {
+  margin-top: -70px;
+}
+
+.star {
+  fill: #fff;
+  stroke: rgba(255, 255, 255, .5);
+  stroke-width: .25px;
+}
+
+#defs {
+    height: 0;
+    width:0;
+}
+
+/* constellation index */
 
 rect.quad {
   fill: none;
-  /*fill: #ddd;*/
 }
 
-/* .axis path, .axis line {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 3px;
- } */
-
 .stella {
-  /* &:hover .quad {
-     fill: #eee;
-  } */
   &:hover .box line {
     stroke: rgba(140, 185, 233, 0.79);
   }
@@ -217,35 +230,6 @@ rect.quad {
   stroke-width: 25px;
 }
 
-.planet {
-  > circle.body:hover {
-    stroke: #AFCADF;
-    stroke-width: 25px;
-  }
-  > path.orbit:hover {
-    stroke-width: 2px;
-  }
-}
-
-.star {
-  fill: #fff;
-  stroke: rgba(255, 255, 255, .5);
-  stroke-width: .25px;
-}
-
-#starcom_map {
-    background-color: #333;
-    background-image: -webkit-gradient(linear, left top, right bottom, from(#000), to(rgba(34, 34, 34, 0)));
-    background-image: -webkit-linear-gradient(left top, #000, rgba(34, 34, 34, 0));
-    background-image: -moz-linear-gradient(left top, #000, rgba(34, 34, 34, 0));
-    overflow: hidden;
-}
-
-#defs {
-    height: 0;
-    width:0;
-}
-
 .stella_label {
   rect {
     fill: #fff;
@@ -259,6 +243,21 @@ rect.quad {
   }
 }
 
-#clock_holder {
-  margin-top: -70px;
+/* solar system show */
+g.planet:hover {
+  > circle.body {
+    stroke: #AFCADF;
+    stroke-width: 25px;
+  }
+  > path.orbit {
+    stroke-width: 3px;
+  }
+
+}
+
+/* planet show */
+.feature {
+    fill: #7BD517;
+    stroke: #7BD517;
+    stroke-width: 1.5px;
 }
