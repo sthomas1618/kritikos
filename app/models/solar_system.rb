@@ -8,11 +8,11 @@
 #  y                :float
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  user_id          :integer
 #
 
 class SolarSystem < ActiveRecord::Base
-	attr_accessible :x, :y
-
+  belongs_to :user
 	belongs_to :constellation
   has_many :planets
 

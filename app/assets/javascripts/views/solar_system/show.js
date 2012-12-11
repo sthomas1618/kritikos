@@ -126,6 +126,13 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
       .attr("transform", _.bind(function(d) {
           return "translate(" + this.x(0) + "," +
                                 this.y(0) + "), scale(.4)"; }, this));
+    var username = this.model.get("user").get("username");
+    var sol_label = this.vis.append("g")
+    .attr("class", "starcom_label")
+    .attr("transform", _.bind(function() {
+      return "translate(" + this.x(-0.45) + "," + this.y(0.5) + ")"; }, this));
+    sol_label.append("text")
+      .text(function(d) { return username + "'s System"; });
 
     var planets = this.model.get("planets");
     this.drawSol(planets.models);

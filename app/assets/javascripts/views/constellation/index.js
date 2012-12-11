@@ -178,16 +178,16 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
                                 this.y(d.get("y") + this.y_offset) + ")"; }, this));
 
     var stella_label = quadEnter.append("g")
-        .attr("class", "stella_label")
+        .attr("class", "starcom_label")
         .attr("transform",
           _.bind(function(d) {
           return "translate(" + this.x(d.get("x") + this.x_offset + 5) + "," +
                                 this.y(d.get("y") + this.y_offset - 5) + ")"; }, this));
-    stella_label.append("svg:text")
+    stella_label.append("text")
       .text(function(d) { return d.get("name"); });
     var gridLines = quadEnter.append("g")
           .attr("class", "box");
-    gridLines.append("svg:line")
+    gridLines.append("line")
       .attr("x1", _.bind(function(d) {
         return this.x(d.get("x") + this.x_offset);}, this))
       .attr("y1", _.bind(function(d) {
@@ -196,7 +196,7 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
         return this.x(d.get("x") + this.x_offset) + this.quad_width; }, this))
       .attr("y2", _.bind(function(d) {
         return this.y(d.get("y") + this.y_offset) + 2; }, this));
-    gridLines.append("svg:line")
+    gridLines.append("line")
       .attr("x1", _.bind(function(d) {
         return this.x(d.get("x") + this.x_offset);}, this))
       .attr("y1", _.bind(function(d) {
@@ -205,7 +205,7 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
         return this.x(d.get("x") + this.x_offset) + this.quad_width; }, this))
       .attr("y2", _.bind(function(d) {
         return this.y(d.get("y") - this.y_offset) - 2; }, this));
-    gridLines.append("svg:line")
+    gridLines.append("line")
       .attr("x1", _.bind(function(d) {
         return this.x(d.get("x") + this.x_offset) + 2;}, this))
       .attr("y1", _.bind(function(d) {
@@ -214,7 +214,7 @@ Kritikos.Views.Constellation.Index = Support.CompositeView.extend({
         return this.x(d.get("x") + this.x_offset) + 2; }, this))
       .attr("y2", _.bind(function(d) {
         return this.y(d.get("y") + this.y_offset) + this.quad_height; }, this));
-    gridLines.append("svg:line")
+    gridLines.append("line")
       .attr("x1", _.bind(function(d) {
         return this.x(d.get("x") - this.x_offset) - 2;}, this))
       .attr("y1", _.bind(function(d) {

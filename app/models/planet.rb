@@ -9,10 +9,11 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  orbital_radius  :float
+#  radius          :float
 #
 
 class Planet < ActiveRecord::Base
-  attr_accessible :name, :orbital_radius, :radius
+  attr_accessible :name
 
   belongs_to :solar_system
 

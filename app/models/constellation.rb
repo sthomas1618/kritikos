@@ -12,7 +12,7 @@
 
 
 class Constellation < ActiveRecord::Base
-	attr_accessible :name, :x, :y
+	attr_accessible :name
 
 	has_many :solar_systems
 

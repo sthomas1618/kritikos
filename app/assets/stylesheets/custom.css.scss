@@ -207,6 +207,19 @@ svg.starcom {
     width:0;
 }
 
+.starcom_label {
+  rect {
+    fill: #fff;
+    stroke-width: 2px;
+    stroke: #fff;
+  }
+  text {
+    font-family: Impact, Charcoal, sans-serif;
+    fill: rgba(202, 228, 235, 0.75);
+    font-size: 36px;
+  }
+}
+
 /* constellation index */
 
 rect.quad {
@@ -228,19 +241,6 @@ rect.quad {
 .sol > circle:hover {
   stroke: #AFCADF;
   stroke-width: 25px;
-}
-
-.stella_label {
-  rect {
-    fill: #fff;
-    stroke-width: 2px;
-    stroke: #fff;
-  }
-  text {
-    font-family: Impact, Charcoal, sans-serif;
-    fill: rgba(202, 228, 235, 0.75);
-    font-size: 36px;
-  }
 }
 
 /* solar system show */

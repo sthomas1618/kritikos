@@ -1,10 +1,4 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+include ApplicationHelper
 
 if(GameClock.count == 0)
     GameClock.create()
@@ -42,7 +36,10 @@ j = 0
 segment_passed = 0
 stella_names.count.times do |k|
     #puts "#{i}, #{j}"
-    Constellation.create!(name: stella_names[k], x: i, y: j)
+    stella = Constellation.new(name: stella_names[k])
+    stella.x = i
+    stella.y = j
+    stella.save!
     i += di
     j += dj
     segment_passed += 1
@@ -56,3 +53,24 @@ stella_names.count.times do |k|
         end
     end
 end
+
+admin = User.create!(name: "Stephen",
+                     username: "sthomas",
+                     email: "sthomas1618@gmail.com",
+                     password: "alliance",
+                     password_confirmation: "alliance")
+admin.toggle!(:admin)
+
+stella = Constellation.first
+min_x = stella.x - 50
+max_x = stella.x + 50
+min_y = stella.y - 50
+max_y = stella.y + 50
+x = random_between min_x, max_x
+y = random_between min_y, max_y
+
+sol = stella.solar_systems.new
+sol.x = x
+sol.y = y
+sol.user = admin
+sol.save!
