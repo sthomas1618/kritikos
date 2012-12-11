@@ -1,2 +1,2 @@
 collection @planets
-attributes :id, :orbital_radius
+attributes :id, :orbital_radius, :radius

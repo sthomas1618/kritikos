@@ -16,8 +16,10 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
     this.y = d3.scale.linear()
       .domain([-0.5875, 0.5875])
       .range([this.height, 0]);
+    this.planetScale = d3.scale.linear()
+      .domain([0.5, 10])
+      .range([100, 225]);
     this.starts = {};
-    //this.start = Date.now();
     this.speed = 6;
   },
 
@@ -117,12 +119,14 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
           return "translate(" + this.x(-0.5) + "," +
                                 this.y(0.5875) + ")"; }, this));
     this.vis.append("circle")
+      .attr("class", "sun")
       .attr("r", 100)
       .attr("fill", "url(#gradeSol)")
       .attr("filter", "url(#glowSol)")
       .attr("transform", _.bind(function(d) {
           return "translate(" + this.x(0) + "," +
                                 this.y(0) + "), scale(.4)"; }, this));
+
     var planets = this.model.get("planets");
     this.drawSol(planets.models);
     return this;
@@ -160,7 +164,8 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
         return "translate(" + this.x(0) + "," + this.y(0) + ")"; }, this));
 
     planetEnter.append("circle")
-      .attr("r", 100)
+      .attr("r", _.bind(function(d) {
+        return this.planetScale(d.get("radius")); }, this))
       .attr("class", "body")
       .attr("fill", "url(#gradePlanet)")
       .attr("filter", "url(#glowPlanet)")
@@ -174,8 +179,6 @@ Kritikos.Views.SolarSystem.Show = Support.CompositeView.extend({
       .attr("fill", "none")
       .attr("transform", _.bind(function(d) {
         return "translate(" + this.x(0) + "," + this.y(0) + ")"; }, this));
-
-
 
     d3.timer(this.startOrbit);
   }

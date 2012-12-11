@@ -12,7 +12,7 @@
 #
 
 class Planet < ActiveRecord::Base
-  attr_accessible :name, :orbital_radius
+  attr_accessible :name, :orbital_radius, :radius
 
   belongs_to :solar_system
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121203184411) do
+ActiveRecord::Schema.define(:version => 20121211050840) do
 
   create_table "constellations", :force => true do |t|
     t.string   "name"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20121203184411) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.float    "orbital_radius"
+    t.float    "radius"
   end
 
   create_table "solar_systems", :force => true do |t|

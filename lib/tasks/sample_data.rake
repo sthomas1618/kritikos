@@ -32,9 +32,12 @@ def make_planets
     num_of = Random.rand(6...9)
     min_dist = 0.03
     max_dist = 0.5
+    min_size = 0.5
+    max_size = 10
     num_of.times do
       dist = random_between min_dist, max_dist
-      sol.planets.create!(orbital_radius: dist, )
+      size = random_between min_size, max_size
+      sol.planets.create!(orbital_radius: dist, radius: size)
     end
   end
 end
