@@ -54,9 +54,9 @@ stella_names.count.times do |k|
     end
 end
 
-admin = User.create!(name: "Stephen",
-                     username: "sthomas",
-                     email: "sthomas1618@gmail.com",
+admin = User.create!(name: "Bilbo Baggins",
+                     username: "bilbo",
+                     email: "bilbo@krit.com",
                      password: "alliance",
                      password_confirmation: "alliance")
 admin.toggle!(:admin)
