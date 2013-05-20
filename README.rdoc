@@ -4,22 +4,22 @@
 == Getting Started For Demostration Purposes
 
 1. As always:
-       <tt>bundle install</tt>
-       <tt>bundle exec rake db:migrate</tt>
+      bundle install
+      bundle exec rake db:migrate
 
 2. Not as always:
-       <tt>cd faye/</tt>
-       <tt>bundle install</tt>
-       <tt>cd ..</tt>
+      cd faye
+      bundle install
+      cd ..
 
 3. Seed the database with constellations and clock:
-       <tt>bundle exec rake db:seed</tt>
+      bundle exec rake db:seed
 
 4. Create sample data for demostration purposes:
-       <tt>bundle exec rake db:populate</tt>
+      bundle exec rake db:populate
 
 5. Start it up with foreman:
-        <tt>foreman start</tt>
+      foreman start
 
 6. Go to http://localhost:5000
 
